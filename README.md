@@ -24,7 +24,11 @@ ipwcde depvar [if] [in], dvar(varname) mvar(varname) d(real) dstar(real) m(real)
 - `censor`: Censors the inverse probability weights at the 1st and 99th percentiles.
 - `sampwts(varname)`: Specifies sampling weights.
 - `reps(integer)`: Number of bootstrap replications, default is 200.
+- `strata(varname)`: Variable that identifies resampling strata.
+- `cluster(varname)`: Variable that identifies resampling clusters.
 - `level(cilevel)`: Confidence level for constructing bootstrap confidence intervals, default is 95%.
+- `seed(passthru)`: Seed for bootstrap resampling.
+- `detail`: Prints the fitted models for the exposure, mediator, and outcome, and saves the inverse probability weights in a new variable.
 
 ## Description
 
@@ -37,23 +41,23 @@ These models are used to generate inverse probability weights, which are then ap
 
 ## Examples
 
-# Basic Usage
+### Basic Usage
 ```stata
 . use nlsy79.dta
 . ipwcde std_cesd_age40, dvar(att22) mvar(ever_unemp_age3539) cvars(female black hispan paredu parprof parinc_prank famsize afqt3) d(1) dstar(0) m(0) reps(1000)
 ```
 
-# Censoring the Weights
+### Censoring the Weights
 ```stata
 . ipwcde std_cesd_age40, dvar(att22) mvar(ever_unemp_age3539) cvars(female black hispan paredu parprof parinc_prank famsize afqt3) d(1) dstar(0) m(0) reps(1000) censor
 ```
 
-# Reporting Detailed Output
+### Reporting Detailed Output
 ```stata
 . ipwcde std_cesd_age40, dvar(att22) mvar(ever_unemp_age3539) cvars(female black hispan paredu parprof parinc_prank famsize afqt3) d(1) dstar(0) m(0) reps(1000) censor detail
 ```
 
-# Adjusting for Exposure-Induced Confounders
+### Adjusting for Exposure-Induced Confounders
 ```stata
 . ipwcde std_cesd_age40, dvar(att22) mvar(ever_unemp_age3539) cvars(female black hispan paredu parprof parinc_prank famsize afqt3) lvars(cesd_1992) d(1) dstar(0) m(0) reps(1000) censor detail
 ```
