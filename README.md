@@ -34,8 +34,8 @@ ipwcde depvar [if] [in], dvar(varname) mvar(varname) d(real) dstar(real) m(real)
 
 `ipwcde` estimates controlled direct effects using inverse probability weights. To compute the weights, it fits the following models:
 
-1. **Exposure Model**: A logit model conditional on baseline covariates.
-2. **Mediator Model**: A logit model conditional on both the exposure and baseline covariates, plus any specified post-treatment covariates.
+1. **Exposure Model**: A logit model for exposure conditional on baseline covariates.
+2. **Mediator Model**: A logit model for the mediator conditional on both the exposure and baseline covariates, plus any specified post-treatment covariates.
 
 These models are used to generate inverse probability weights, which are then applied to fit an outcome model and estimate the controlled direct effect.
 
