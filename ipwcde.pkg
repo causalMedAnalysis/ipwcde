@@ -1,0 +1,14 @@
+d 'IPWCDE': module to estimate controlled direct effects using inverse probability weighting
+d
+d ipwcde estimates controlled direct effects using inverse probability weighting
+d
+d Requires: Stata version 15
+d
+d Distribution-Date: 20240710
+d
+d Author: Geoff Wodtke, University of Chicago
+d Support: email wodtke@@uchicago.edu
+d
+f ipwcde.ado
+f ipwcdebs.ado
+f ipwcde.sthlp

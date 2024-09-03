@@ -1,0 +1,31 @@
+{smcl}
+{txt}{sf}{ul off}
+{.-}
+{s6hlp}
+package ^ipwcde^ from https://github.com/causalMedAnalysis/ipwcde
+{smcl}
+{.-}
+{s6hlp}
+
+{smcl}
+{hilite:TITLE}{p 6 8}'IPWMED': module to estimate controlled direct effects using inverse probability weighting{p_end}
+{s6hlp}
+
+^DESCRIPTION/AUTHOR(S)^
+      
+ipwcde estimates controlled direct effects using inverse probability weighting.
+      
+Requires: Stata version 15
+      
+Distribution-Date: 20240710
+      
+Author: Geoff Wodtke, University of Chicago
+Support: email wodtke@@uchicago.edu
+      
+
+^INSTALLATION FILES^                              (type ^net install^ ^ipwcde^)
+      ipwcde.ado
+	  ipwcdebs.ado
+      ipwcde.sthlp
+
+{txt}{sf}{ul off}
