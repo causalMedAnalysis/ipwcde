@@ -8,7 +8,7 @@ program define ipwcdebs, rclass
 	
 	version 15	
 
-	syntax varname(numeric) [if][in], ///
+	syntax varlist(min=1 max=1 numeric) [if][in], ///
 		dvar(varname numeric) ///
 		mvar(varname numeric) ///
 		d(real) ///
