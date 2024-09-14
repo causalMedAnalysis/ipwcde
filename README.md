@@ -1,4 +1,4 @@
-# `ipwcde`: Analysis of Controlled Direct Effects Using Inverse Probability Weighting
+# `ipwcde`: A Stata Module to Estimate Controlled Direct Effects Using Inverse Probability Weighting
 
 The `ipwcde` command estimates controlled direct effects using inverse probability weighting.
 
@@ -21,18 +21,13 @@ ipwcde depvar [if] [in], dvar(varname) mvar(varname) d(real) dstar(real) m(real)
 
 - `cvars(varlist)`: List of baseline covariates; categorical variables must be dummy coded.
 - `lvars(varlist)`: List of post-treatment covariates, dummy coded if categorical.
-- `censor`: Censors the inverse probability weights at the 1st and 99th percentiles.
 - `sampwts(varname)`: Specifies sampling weights.
-- `reps(integer)`: Number of bootstrap replications, default is 200.
-- `strata(varname)`: Variable that identifies resampling strata.
-- `cluster(varname)`: Variable that identifies resampling clusters.
-- `level(cilevel)`: Confidence level for constructing bootstrap confidence intervals, default is 95%.
-- `seed(passthru)`: Seed for bootstrap resampling.
+- `censor`: Censors the inverse probability weights at the 1st and 99th percentiles.
 - `detail`: Prints the fitted models for the exposure, mediator, and outcome, and saves the inverse probability weights in a new variable.
 
 ## Description
 
-`ipwcde` estimates controlled direct effects using inverse probability weights. To compute the weights, it fits the following models:
+`ipwcde` estimates controlled direct effects using inverse probability weights, and it computes inferential statistics using the nonparametric bootsrtap. To compute the weights, `ipwcde` fits the following models:
 
 1. **Exposure Model**: A logit model for exposure conditional on baseline covariates.
 2. **Mediator Model**: A logit model for the mediator conditional on both the exposure and baseline covariates, plus any specified post-treatment covariates.
@@ -44,22 +39,22 @@ These models are used to generate inverse probability weights, which are then ap
 ### Basic Usage
 ```stata
 . use nlsy79.dta
-. ipwcde std_cesd_age40, dvar(att22) mvar(ever_unemp_age3539) cvars(female black hispan paredu parprof parinc_prank famsize afqt3) d(1) dstar(0) m(0) reps(1000)
+. ipwcde std_cesd_age40, dvar(att22) mvar(ever_unemp_age3539) cvars(female black hispan paredu parprof parinc_prank famsize afqt3) d(1) dstar(0) m(0)
 ```
 
-### Censoring the Weights
+### Censoring the Weights and Using 1000 Bootstrap Replications
 ```stata
-. ipwcde std_cesd_age40, dvar(att22) mvar(ever_unemp_age3539) cvars(female black hispan paredu parprof parinc_prank famsize afqt3) d(1) dstar(0) m(0) reps(1000) censor
+. ipwcde std_cesd_age40, dvar(att22) mvar(ever_unemp_age3539) cvars(female black hispan paredu parprof parinc_prank famsize afqt3) d(1) dstar(0) m(0) censor reps(1000)
 ```
 
 ### Reporting Detailed Output
 ```stata
-. ipwcde std_cesd_age40, dvar(att22) mvar(ever_unemp_age3539) cvars(female black hispan paredu parprof parinc_prank famsize afqt3) d(1) dstar(0) m(0) reps(1000) censor detail
+. ipwcde std_cesd_age40, dvar(att22) mvar(ever_unemp_age3539) cvars(female black hispan paredu parprof parinc_prank famsize afqt3) d(1) dstar(0) m(0) rcensor detail reps(1000) 
 ```
 
 ### Adjusting for Exposure-Induced Confounders
 ```stata
-. ipwcde std_cesd_age40, dvar(att22) mvar(ever_unemp_age3539) cvars(female black hispan paredu parprof parinc_prank famsize afqt3) lvars(cesd_1992) d(1) dstar(0) m(0) reps(1000) censor detail
+. ipwcde std_cesd_age40, dvar(att22) mvar(ever_unemp_age3539) cvars(female black hispan paredu parprof parinc_prank famsize afqt3) lvars(cesd_1992) d(1) dstar(0) m(0) censor detail reps(1000) 
 ```
 
 ## Saved Results
