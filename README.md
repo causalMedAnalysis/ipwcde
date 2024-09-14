@@ -24,6 +24,7 @@ ipwcde depvar [if] [in], dvar(varname) mvar(varname) d(real) dstar(real) m(real)
 - `sampwts(varname)`: Specifies sampling weights.
 - `censor`: Censors the inverse probability weights at the 1st and 99th percentiles.
 - `detail`: Prints the fitted models for the exposure, mediator, and outcome, and saves the inverse probability weights in a new variable.
+- `bootstrap_options`: All `bootstrap` options are available.
 
 ## Description
 
