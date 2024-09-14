@@ -14,17 +14,11 @@ program define ipwcde, eclass
 		d(real) ///
 		dstar(real) ///
 		m(real) ///
-		[cvars(varlist numeric)] ///
-		[lvars(varlist numeric)] ///
-		[sampwts(varname numeric)] ///
-		[reps(integer 200)] ///
-		[strata(varname numeric)] ///
-		[cluster(varname numeric)] ///
-		[level(cilevel)] ///
-		[seed(passthru)] ///
-		[saving(string)] ///
-		[censor] ///
-		[detail]
+		[cvars(varlist numeric) ///
+		lvars(varlist numeric) ///
+		sampwts(varname numeric) ///
+		censor ///
+		detail * ]
 
 	qui {
 		marksample touse
@@ -41,34 +35,19 @@ program define ipwcde, eclass
 		}
 	}
 
-	/***REPORT MODELS AND SAVE WEIGHTS IF REQUESTED***/
 	if ("`detail'" != "") {
 		
-		ipwcdebs `varlist' if `touse', ///
-			dvar(`dvar') mvar(`mvar') cvars(`cvars') lvars(`lvars') ///
-			d(`d') dstar(`dstar') m(`m') sampwts(`sampwts') `censor' `detail'
+		ipwcdebs `varlist' if `touse', dvar(`dvar') mvar(`mvar') d(`d') dstar(`dstar') m(`m') ///
+			cvars(`cvars') lvars(`lvars') sampwts(`sampwts') `censor' `detail'
 	
 		label var sw4_r001 "IPW for estimating E(Y(d,m))"
 		}
 	
-	/***COMPUTE POINT AND INTERVAL ESTIMATES***/
-	if ("`saving'" != "") {
-		bootstrap CDE=r(cde), ///
-			reps(`reps') strata(`strata') cluster(`cluster') level(`level') `seed' ///
-			saving(`saving', replace) noheader notable: ///
-			ipwcdebs `varlist' if `touse', ///
-			dvar(`dvar') mvar(`mvar') cvars(`cvars') lvars(`lvars') ///
-			d(`d') dstar(`dstar') m(`m') sampwts(`sampwts') `censor' 
-		}
-
-	if ("`saving'" == "") {
-		bootstrap CDE=r(cde), ///
-			reps(`reps') strata(`strata') cluster(`cluster') level(`level') `seed' ///
-			noheader notable: ///
-			ipwcdebs `varlist' if `touse', ///
-			dvar(`dvar') mvar(`mvar') cvars(`cvars') lvars(`lvars') ///
-			d(`d') dstar(`dstar') m(`m') sampwts(`sampwts') `censor' 
-		}
+	bootstrap ///
+		CDE=r(cde), ///
+			`options' noheader notable: ///
+				ipwcdebs `varlist' if `touse', dvar(`dvar') mvar(`mvar') d(`d') dstar(`dstar') m(`m') ///
+					cvars(`cvars') lvars(`lvars') sampwts(`sampwts') `censor' 
 			
 	estat bootstrap, p noheader
 	
