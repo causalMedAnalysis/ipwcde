@@ -35,6 +35,8 @@ ipwcde depvar [if] [in], dvar(varname) mvar(varname) d(real) dstar(real) m(real)
 
 These models are used to generate inverse probability weights, which are then applied to fit an outcome model and estimate the controlled direct effect.
 
+`ipwmed` allows sampling weights via the `sampwts` option, but it does not internally rescale them for use with the bootstrap. If using weights from a complex sample design that require rescaling to produce valid boostrap estimates, the user must be sure to appropriately specify the `strata`, `cluster`, and `size` options from the `bootstrap` command so that Nc-1 clusters are sampled within from each stratum, where Nc denotes the number of clusters per stratum. Failure to properly adjust the bootstrap sampling to account for a complex sample design that requires weighting could lead to invalid inferential statistics.
+
 ## Examples
 
 ### Basic Usage
