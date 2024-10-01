@@ -22,7 +22,7 @@ ipwcde depvar [if] [in], dvar(varname) mvar(varname) d(real) dstar(real) m(real)
 - `cvars(varlist)`: List of baseline covariates; categorical variables must be dummy coded.
 - `lvars(varlist)`: List of post-treatment covariates, dummy coded if categorical.
 - `sampwts(varname)`: Specifies sampling weights.
-- `censor`: Censors the inverse probability weights at the 1st and 99th percentiles.
+- `censor(numlist)`: Censors the inverse probability weights at the percentiles provided in `numlist`.
 - `detail`: Prints the fitted models for the exposure, mediator, and outcome, and saves the inverse probability weights in a new variable.
 - `bootstrap_options`: All `bootstrap` options are available.
 
@@ -47,17 +47,17 @@ These models are used to generate inverse probability weights, which are then ap
 
 ### Censoring the Weights and Using 1000 Bootstrap Replications
 ```stata
-. ipwcde std_cesd_age40, dvar(att22) mvar(ever_unemp_age3539) cvars(female black hispan paredu parprof parinc_prank famsize afqt3) d(1) dstar(0) m(0) censor reps(1000)
+. ipwcde std_cesd_age40, dvar(att22) mvar(ever_unemp_age3539) cvars(female black hispan paredu parprof parinc_prank famsize afqt3) d(1) dstar(0) m(0) censor(1 99) reps(1000)
 ```
 
 ### Reporting Detailed Output
 ```stata
-. ipwcde std_cesd_age40, dvar(att22) mvar(ever_unemp_age3539) cvars(female black hispan paredu parprof parinc_prank famsize afqt3) d(1) dstar(0) m(0) rcensor detail reps(1000) 
+. ipwcde std_cesd_age40, dvar(att22) mvar(ever_unemp_age3539) cvars(female black hispan paredu parprof parinc_prank famsize afqt3) d(1) dstar(0) m(0) censor(1 99) reps(1000) detail 
 ```
 
 ### Adjusting for Exposure-Induced Confounders
 ```stata
-. ipwcde std_cesd_age40, dvar(att22) mvar(ever_unemp_age3539) cvars(female black hispan paredu parprof parinc_prank famsize afqt3) lvars(cesd_1992) d(1) dstar(0) m(0) censor detail reps(1000) 
+. ipwcde std_cesd_age40, dvar(att22) mvar(ever_unemp_age3539) cvars(female black hispan paredu parprof parinc_prank famsize afqt3) lvars(cesd_1992) d(1) dstar(0) m(0) censor(1 99) reps(1000) detail 
 ```
 
 ## Saved Results
