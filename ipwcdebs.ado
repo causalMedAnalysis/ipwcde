@@ -17,7 +17,7 @@ program define ipwcdebs, rclass
 		[cvars(varlist numeric)] ///
 		[lvars(varlist numeric)] ///
 		[sampwts(varname numeric)] ///
-		[censor] ///
+		[censor(numlist min=2 max=2)] ///
 		[detail]
 	
 	qui {
@@ -70,7 +70,7 @@ program define ipwcdebs, rclass
 		(((`mvar'*`phat_M1_D')+((1-`mvar')*`phat_M0_D')) / ((`mvar'*`phat_M1_CDL')+((1-`mvar')*`phat_M0_CDL'))) if `touse'
 		
 	if ("`censor'"!="") {
-		qui centile `sw4' if `sw4'!=. & `touse', c(1 99) 
+		qui centile `sw4' if `sw4'!=. & `touse', c(`censor') 
 		qui replace `sw4' = r(c_1) if `sw4'<r(c_1) & `sw4'!=. & `touse'
 		qui replace `sw4' = r(c_2) if `sw4'>r(c_2) & `sw4'!=. & `touse'
 	}

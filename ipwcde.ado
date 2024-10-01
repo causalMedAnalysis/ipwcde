@@ -17,7 +17,7 @@ program define ipwcde, eclass
 		[cvars(varlist numeric) ///
 		lvars(varlist numeric) ///
 		sampwts(varname numeric) ///
-		censor ///
+		censor(numlist min=2 max=2) ///
 		detail * ]
 
 	qui {
@@ -35,10 +35,30 @@ program define ipwcde, eclass
 		}
 	}
 
+	if ("`censor'" != "") {
+		local censor1: word 1 of `censor'
+		local censor2: word 2 of `censor'
+
+		if (`censor1' >= `censor2') {
+			di as error "The first number in the censor() option must be less than the second."
+			error 198
+		}
+
+		if (`censor1' < 1 | `censor1' > 49) {
+			di as error "The first number in the censor() option must be between 1 and 49."
+			error 198
+		}
+
+		if (`censor2' < 51 | `censor2' > 99) {
+			di as error "The second number in the censor() option must be between 51 and 99."
+			error 198
+		}
+	}
+	
 	if ("`detail'" != "") {
 		
 		ipwcdebs `varlist' if `touse', dvar(`dvar') mvar(`mvar') d(`d') dstar(`dstar') m(`m') ///
-			cvars(`cvars') lvars(`lvars') sampwts(`sampwts') `censor' `detail'
+			cvars(`cvars') lvars(`lvars') sampwts(`sampwts') censor(`censor') `detail'
 	
 		label var sw4_r001 "IPW for estimating E(Y(d,m))"
 		}
@@ -47,7 +67,7 @@ program define ipwcde, eclass
 		CDE=r(cde), ///
 			`options' noheader notable: ///
 				ipwcdebs `varlist' if `touse', dvar(`dvar') mvar(`mvar') d(`d') dstar(`dstar') m(`m') ///
-					cvars(`cvars') lvars(`lvars') sampwts(`sampwts') `censor' 
+					cvars(`cvars') lvars(`lvars') sampwts(`sampwts') censor(`censor')
 			
 	estat bootstrap, p noheader
 	

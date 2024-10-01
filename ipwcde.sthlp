@@ -22,7 +22,7 @@
 {opt cvars(varlist)}
 {opt lvars(varlist)}
 {opt sampwts(varname)} 
-{opt censor}
+{opt censor(numlist)}
 {opt detail}
 [{it:{help bootstrap##options:bootstrap_options}}]
 
@@ -49,7 +49,8 @@ to be included in the mediator model. Categorical variables need to be coded as 
 
 {phang}{opt sampwts(varname)} - this option specifies a variable containing sampling weights to include in the analysis.
 
-{phang}{opt censor} - this option specifies that the inverse probability weights are censored at their 1st and 99th percentiles.
+{phang}{opt censor(numlist)} - this option specifies that the inverse probability weights are censored at the percentiles supplied in {numlist}. For example,
+censor(1 99) censors the weights at their 1st and 99th percentiles.
 
 {phang}{opt detail} - this option prints the fitted models for the exposure, mediator, and outcome, and it also saves a new variable
 containing the inverse probability weights used to fit the outcome model and compute the estimated CDE. {p_end}
